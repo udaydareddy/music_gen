@@ -8,8 +8,9 @@ __pycache__/
 
 # Virtual environment directories
 tf-env/
-streamlit-env-py310/ # Add this line to ignore your new virtual environment
+streamlit-env-py310/
 
-# Streamlit cache/config (ignore everything inside except config.toml)
-.streamlit/*
-!.streamlit/config.toml # This line EXCLUDES config.toml from being ignored
+# Streamlit cache/config
+# Ignore the entire .streamlit directory first, then un-ignore config.toml
+.streamlit/
+!.streamlit/config.toml
