@@ -10,7 +10,3 @@ __pycache__/
 tf-env/
 streamlit-env-py310/
 
-# Streamlit cache/config
-# Ignore the entire .streamlit directory first, then un-ignore config.toml
-.streamlit/
-!.streamlit/config.toml
