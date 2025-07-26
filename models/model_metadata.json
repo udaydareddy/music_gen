@@ -1,0 +1,37 @@
+{
+  "vocab_size": 8,
+  "sequence_length": 15,
+  "note_to_int": {
+    "A4": 0,
+    "B4": 1,
+    "C4": 2,
+    "C5": 3,
+    "D4": 4,
+    "E4": 5,
+    "F4": 6,
+    "G4": 7
+  },
+  "int_to_note": {
+    "0": "A4",
+    "1": "B4",
+    "2": "C4",
+    "3": "C5",
+    "4": "D4",
+    "5": "E4",
+    "6": "F4",
+    "7": "G4"
+  },
+  "model_architecture": {
+    "layers": 6,
+    "parameters": 239688,
+    "input_shape": [
+      15
+    ],
+    "output_shape": 8
+  },
+  "training_info": {
+    "epochs_trained": 44,
+    "validation_accuracy": 0.91,
+    "dataset_size": 184
+  }
+}
