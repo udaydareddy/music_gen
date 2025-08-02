@@ -225,12 +225,9 @@ def load_ai_model_cached():
         try:
             import tensorflow as tf
             model = tf.keras.models.load_model(MODEL_PATH)
-            st.success("✅ AI Music Model loaded successfully!")
         except ImportError:
-            st.warning("⚠️ TensorFlow not available. Running in fallback mode with random music generation.")
             model = None
         except Exception as e:
-            st.warning(f"⚠️ Could not load AI model: {e}. Running in fallback mode.")
             model = None
         
         # Load mappings and metadata
@@ -241,8 +238,6 @@ def load_ai_model_cached():
         
         return model, note_mappings, metadata
     except Exception as e:
-        st.error(f"❌ Error loading model files: {e}")
-        st.error("Please ensure 'models/' directory exists and contains 'note_mappings.pkl', 'model_metadata.json'.")
         return None, None, None
 
 # --- Core Music Generation Functions (Reused) ---
@@ -250,7 +245,6 @@ def load_ai_model_cached():
 def generate_music_sequence(num_notes, temperature, seed, model, note_mappings):
     """Generate music using the AI model"""
     if model is None:
-        st.warning("AI Model not loaded. Generating simple random music instead.")
         # Generate simple random notes as fallback
         notes = ['C4', 'D4', 'E4', 'F4', 'G4', 'A4', 'B4', 'C5']
         return [random.choice(notes) for _ in range(num_notes)]
@@ -435,12 +429,6 @@ with st.container(border=False): # Use container to mimic card
     
     # Load model and mappings at the start of the script
     model_loaded, note_mappings_loaded, metadata_loaded = load_ai_model_cached()
-
-    # Show TensorFlow status
-    if model_loaded is None:
-        st.info("ℹ️ **TensorFlow not available** - Running in fallback mode with random music generation. Full AI features will be available once TensorFlow compatibility is resolved.")
-    else:
-        st.success("✅ **AI Model loaded successfully** - Full AI music generation is available!")
 
     if model_loaded is None and note_mappings_loaded is None:
         st.error("❌ Application not ready: Model files could not be loaded. Please check logs for details.")
