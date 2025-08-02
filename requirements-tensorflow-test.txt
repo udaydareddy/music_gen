@@ -1,0 +1,20 @@
+# Test requirements for TensorFlow compatibility
+# Try these one by one to find a working version
+
+# Option 1: Latest TensorFlow with pre-release
+streamlit>=1.28.0
+tensorflow>=2.20.0rc0
+music21>=9.1.0
+numpy>=1.24.0,<2.0.0
+
+# Option 2: CPU-only TensorFlow
+# streamlit>=1.28.0
+# tensorflow-cpu>=2.16.0
+# music21>=9.1.0
+# numpy>=1.24.0,<2.0.0
+
+# Option 3: Specific older version
+# streamlit>=1.28.0
+# tensorflow==2.13.0
+# music21>=9.1.0
+# numpy>=1.24.0,<2.0.0 

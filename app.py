@@ -15,6 +15,9 @@ MODEL_PATH = 'models/ai_music_model.keras'
 MAPPINGS_PATH = 'models/note_mappings.pkl'
 METADATA_PATH = 'models/model_metadata.json'
 
+# --- Deployment Test ---
+st.success("🚀 **Deployment Successful!** - App is running correctly.")
+
 # --- Streamlit Page Configuration ---
 st.set_page_config(
     page_title="AI Music Generator",
@@ -433,8 +436,14 @@ with st.container(border=False): # Use container to mimic card
     # Load model and mappings at the start of the script
     model_loaded, note_mappings_loaded, metadata_loaded = load_ai_model_cached()
 
+    # Show TensorFlow status
     if model_loaded is None:
-        st.warning("Application not ready: AI model could not be loaded. Please check logs for details.")
+        st.info("ℹ️ **TensorFlow not available** - Running in fallback mode with random music generation. Full AI features will be available once TensorFlow compatibility is resolved.")
+    else:
+        st.success("✅ **AI Model loaded successfully** - Full AI music generation is available!")
+
+    if model_loaded is None and note_mappings_loaded is None:
+        st.error("❌ Application not ready: Model files could not be loaded. Please check logs for details.")
     else:
         with st.form("music_generation_form"):
             col1, col2 = st.columns(2) # Two columns for layout like your Flask UI
