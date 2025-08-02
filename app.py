@@ -4,7 +4,7 @@ import random
 import os
 import json
 import pickle
-import tensorflow as tf
+# import tensorflow as tf  # Temporarily commented out for deployment testing
 from music21 import stream, note, tempo, meter, key
 import tempfile
 import uuid
@@ -218,24 +218,42 @@ if 'show_about' not in st.session_state:
 def load_ai_model_cached():
     """Load the AI music model and mappings, cached by Streamlit."""
     try:
-        model = tf.keras.models.load_model(MODEL_PATH)
+        # Try to load TensorFlow and model if available
+        try:
+            import tensorflow as tf
+            model = tf.keras.models.load_model(MODEL_PATH)
+            st.success("✅ AI Music Model loaded successfully!")
+        except ImportError:
+            st.warning("⚠️ TensorFlow not available. Running in fallback mode with random music generation.")
+            model = None
+        except Exception as e:
+            st.warning(f"⚠️ Could not load AI model: {e}. Running in fallback mode.")
+            model = None
+        
+        # Load mappings and metadata
         with open(MAPPINGS_PATH, 'rb') as f:
             note_mappings = pickle.load(f)
         with open(METADATA_PATH, 'r') as f:
             metadata = json.load(f)
-        st.success("✅ AI Music Model loaded successfully!")
+        
         return model, note_mappings, metadata
     except Exception as e:
-        st.error(f"❌ Error loading model: {e}")
-        st.error("Please ensure 'models/' directory exists and contains 'ai_music_model.keras', 'note_mappings.pkl', 'model_metadata.json'.")
+        st.error(f"❌ Error loading model files: {e}")
+        st.error("Please ensure 'models/' directory exists and contains 'note_mappings.pkl', 'model_metadata.json'.")
         return None, None, None
 
 # --- Core Music Generation Functions (Reused) ---
 
 def generate_music_sequence(num_notes, temperature, seed, model, note_mappings):
     """Generate music using the AI model"""
-    if model is None or note_mappings is None:
-        st.error("Model not loaded. Cannot generate music.")
+    if model is None:
+        st.warning("AI Model not loaded. Generating simple random music instead.")
+        # Generate simple random notes as fallback
+        notes = ['C4', 'D4', 'E4', 'F4', 'G4', 'A4', 'B4', 'C5']
+        return [random.choice(notes) for _ in range(num_notes)]
+    
+    if note_mappings is None:
+        st.error("Note mappings not loaded. Cannot generate music.")
         return None
     
     int_to_note = note_mappings.get('int_to_note')
@@ -263,6 +281,12 @@ def generate_music_sequence(num_notes, temperature, seed, model, note_mappings):
     generated_notes = []
     
     try:
+        if model is None:
+            # Fallback: generate simple random notes
+            notes = ['C4', 'D4', 'E4', 'F4', 'G4', 'A4', 'B4', 'C5']
+            return [random.choice(notes) for _ in range(num_notes)]
+        
+        # AI model generation
         for i in range(num_notes):
             input_sequence = np.array([current_sequence], dtype=np.int32)
             
