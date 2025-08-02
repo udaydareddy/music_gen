@@ -629,5 +629,5 @@ with st.container(border=False): # Use container to mimic card
 
 # Add a simple footer
 st.markdown("---")
-st.markdown('<div class="footer-streamlit">&copy; 2025 AI Music Generator - Powered by Deep Learning</div>', unsafe_allow_html=True)
+st.markdown('<div class="footer-streamlit">&copy; 2025 AI Music Generator - Powered by Deep Learning<br>Created by Uday Reddy</div>', unsafe_allow_html=True)
 
