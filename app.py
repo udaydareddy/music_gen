@@ -16,7 +16,7 @@ MAPPINGS_PATH = 'models/note_mappings.pkl'
 METADATA_PATH = 'models/model_metadata.json'
 
 # --- Deployment Test ---
-st.success("🚀 **Deployment Successful!** - App is running correctly.")
+# st.success("🚀 **Deployment Successful!** - App is running correctly.")
 
 # --- Streamlit Page Configuration ---
 st.set_page_config(
